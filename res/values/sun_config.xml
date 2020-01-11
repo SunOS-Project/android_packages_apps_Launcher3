@@ -20,4 +20,7 @@
 
     <!-- String representing the fragment class for misc settings activity.-->
     <string name="misc_settings_fragment_name" translatable="false">com.android.launcher3.settings.SettingsMisc$MiscSettingsFragment</string>
+
+    <!-- Themed icons -->
+    <string name="drawable_factory_class" translatable="false">com.android.launcher3.icons.ThirdPartyDrawableFactory</string>
 </resources>
