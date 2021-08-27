@@ -112,4 +112,9 @@
     <!-- Dark Status Bar -->
     <string name="perf_dark_status_bar_title">Dark status bar</string>
     <string name="perf_dark_status_bar_summary">Use dark status bar on Home screen</string>
+
+    <!-- Lock -->
+    <string name="action_lock">Lock/Unlock app</string>
+    <string name="unlock_app">Unlocked app in recents</string>
+    <string name="lock_app">Locked app in recents</string>
 </resources>
