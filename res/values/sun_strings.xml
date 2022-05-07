@@ -90,4 +90,8 @@
     <!-- Wallpaper zooming -->
     <string name="allow_wallpaper_zooming">Wallpaper zooming</string>
     <string name="allow_wallpaper_zooming_summary">Zoom in or out the wallpaper when using drawer or recent apps</string>
+
+    <!-- Top shadow -->
+    <string name="show_top_shadow_title">Show top shadow</string>
+    <string name="show_top_shadow_summary">Add shadow underneath the status bar</string>
 </resources>
