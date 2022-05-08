@@ -30,6 +30,13 @@
         android:widgetLayout="@layout/notification_pref_warning" />
 
     <org.sun.custom.preference.SwitchPreferenceCompat
+        android:key="themed_icons"
+        android:title="@string/themed_icons_title"
+        android:summary="@string/themed_icons_summary"
+        android:defaultValue="false"
+        launcher:iconSpaceReserved="false" />
+ 
+    <org.sun.custom.preference.SwitchPreferenceCompat
         android:key="pref_forced_monochrome_icons"
         android:title="@string/pref_force_monochrome_themed_icons_title"
         android:summary="@string/pref_force_monochrome_themed_icons_summary"

@@ -171,4 +171,9 @@
 
     <!-- A widget category label for grouping widgets related to weather. [CHAR_LIMIT=30] -->
     <string name="widget_category_weather">Weather</string>
+
+    <!-- Themed icons -->
+    <string name="themed_icons_title">Themed icon</string>
+    <string name="themed_icons_summary">Enable themed icon for Homescreen apps</string>
+
 </resources>
