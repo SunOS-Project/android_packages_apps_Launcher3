@@ -51,6 +51,7 @@ import androidx.preference.PreferenceGroup.PreferencePositionCallback;
 import androidx.preference.PreferenceScreen;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.LauncherPrefs;
@@ -71,7 +72,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class SettingsMisc extends CollapsingToolbarBaseActivity
-        implements OnPreferenceStartFragmentCallback, OnPreferenceStartScreenCallback {
+        implements OnPreferenceStartFragmentCallback, OnPreferenceStartScreenCallback,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     @VisibleForTesting
     static final String DEVELOPER_OPTIONS_KEY = "pref_developer_options";
@@ -145,6 +147,17 @@ public class SettingsMisc extends CollapsingToolbarBaseActivity
                     "Invalid fragment for this activity: " + preferenceFragment);
         } else {
             return preferenceFragment;
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) { 
+        switch (key) {
+            case DeviceProfile.KEY_PHONE_TASKBAR:
+                LauncherAppState.getInstance(this).setNeedsRestart();
+                break;
+            default:
+                break;
         }
     }
 
