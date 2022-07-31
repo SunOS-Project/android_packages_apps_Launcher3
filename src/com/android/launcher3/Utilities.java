@@ -180,6 +180,7 @@ public final class Utilities {
     public static final String KEY_SHORT_PARALLAX = "pref_short_parallax";
     public static final String KEY_SINGLE_PAGE_CENTER = "pref_single_page_center";
     public static final String KEY_DRAWER_SCROLLBAR = "pref_drawer_scrollbar";
+    public static final String KEY_SMARTSPACE = "pref_smartspace";
 
     /**
      * Returns true if theme is dark.
@@ -948,5 +949,14 @@ public final class Utilities {
     public static boolean showScrollbar(Context context) {
         SharedPreferences prefs = LauncherPrefs.getPrefs(context.getApplicationContext());
         return prefs.getBoolean(KEY_DRAWER_SCROLLBAR, true);
+    }
+
+    public static boolean showSmartspace(Context context) {
+        return isGSAEnabled(context) && isSmartspaceEnabled(context);
+    }
+
+    private static boolean isSmartspaceEnabled(Context context) {
+        SharedPreferences prefs = LauncherPrefs.getPrefs(context.getApplicationContext());
+        return prefs.getBoolean(KEY_SMARTSPACE, true);
     }
 }

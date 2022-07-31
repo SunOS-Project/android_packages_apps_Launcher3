@@ -326,13 +326,16 @@ class ModelCallbacks(private var launcher: Launcher) : BgDataModel.Callbacks {
             launcher.deviceProfile.isTwoPanels
         )
         val firstScreenPosition = 0
+        val smartSpaceEnabled = Utilities.showSmartspace(launcher)
         if (
+            smartSpaceEnabled &&
             (isFirstPagePinnedItemEnabled && !SHOULD_SHOW_FIRST_PAGE_WIDGET) &&
                 orderedScreenIds.indexOf(FIRST_SCREEN_ID) != firstScreenPosition
         ) {
             orderedScreenIds.removeValue(FIRST_SCREEN_ID)
             orderedScreenIds.add(firstScreenPosition, FIRST_SCREEN_ID)
         } else if (
+            !smartSpaceEnabled &&
             (!isFirstPagePinnedItemEnabled || SHOULD_SHOW_FIRST_PAGE_WIDGET) &&
                 orderedScreenIds.isEmpty
         ) {
@@ -375,6 +378,7 @@ class ModelCallbacks(private var launcher: Launcher) : BgDataModel.Callbacks {
 
     private fun bindAddScreens(orderedScreenIdsArg: LIntArray) {
         var orderedScreenIds = orderedScreenIdsArg
+        val smartSpaceEnabled = Utilities.showSmartspace(launcher)
         if (launcher.deviceProfile.isTwoPanels) {
             if (FeatureFlags.FOLDABLE_SINGLE_PAGE.get()) {
                 orderedScreenIds = filterTwoPanelScreenIds(orderedScreenIds)
@@ -390,6 +394,7 @@ class ModelCallbacks(private var launcher: Launcher) : BgDataModel.Callbacks {
         }
         orderedScreenIds
             .filterNot { screenId ->
+                smartSpaceEnabled &&
                 isFirstPagePinnedItemEnabled &&
                     !SHOULD_SHOW_FIRST_PAGE_WIDGET &&
                     screenId == WorkspaceLayoutManager.FIRST_SCREEN_ID
