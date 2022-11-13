@@ -47,7 +47,7 @@ import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.customization.IconDatabase;
 import com.android.launcher3.model.WidgetsModel;
-import com.android.launcher3.settings.preference.IconPackPrefSetter;
+import com.android.launcher3.icons.pack.IconPackSettingsActivity;
 import com.android.launcher3.settings.preference.ReloadingListPreference;
 import com.android.launcher3.util.AppReloader;
 import com.android.launcher3.util.SettingsCache;
@@ -69,8 +69,6 @@ public class SettingsIcons extends CollapsingToolbarBaseActivity
 
     private static final int DELAY_HIGHLIGHT_DURATION_MILLIS = 600;
     public static final String SAVE_HIGHLIGHTED_KEY = "android:preference_highlighted";
-
-    private static final String KEY_ICON_PACK = "pref_icon_pack";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,7 +228,13 @@ public class SettingsIcons extends CollapsingToolbarBaseActivity
         }
 
         @Override
-        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) { }
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+            switch (key) {
+                case IconDatabase.KEY_ICON_PACK:
+                    updatePreferences();
+                    break;
+            }
+        }
 
         /**
          * Initializes a preference. This is called for every preference. Returning false here
@@ -240,18 +244,9 @@ public class SettingsIcons extends CollapsingToolbarBaseActivity
             switch (preference.getKey()) {
                 case NOTIFICATION_DOTS_PREFERENCE_KEY:
                     return BuildConfig.NOTIFICATION_DOTS_ENABLED;
-                case KEY_ICON_PACK:
-                    mIconPackPref = (ReloadingListPreference) preference;
-                    mIconPackPref.setValue(IconDatabase.getGlobal(getActivity()));
-                    mIconPackPref.setOnReloadListener(IconPackPrefSetter::new);
-                    mIconPackPref.setIcon(getPackageIcon(IconDatabase.getGlobal(getActivity())));
-                    mIconPackPref.setOnPreferenceChangeListener((pref, val) -> {
-                        IconDatabase.clearAll(getActivity());
-                        IconDatabase.setGlobal(getActivity(), (String) val);
-                        mIconPackPref.setIcon(getPackageIcon((String) val));
-                        AppReloader.get(getActivity()).reload();
-                        return true;
-                    });
+                case IconDatabase.KEY_ICON_PACK:
+                    setupIconPackPreference(preference);
+                    return true;
             }
 
             return true;
@@ -288,14 +283,13 @@ public class SettingsIcons extends CollapsingToolbarBaseActivity
                     : null;
         }
 
-        private Drawable getPackageIcon(String pkgName) {
-            Drawable icon = getContext().getResources().
-                              getDrawable(com.android.internal.R.drawable.sym_def_app_icon);
-            try {
-                 icon = getContext().getPackageManager().
-                              getApplicationIcon(pkgName);
-            } catch (PackageManager.NameNotFoundException e) {  }
-            return icon;
+        private void setupIconPackPreference(Preference preference) {
+            final String pkgLabel = IconDatabase.getGlobalLabel(getActivity());
+            preference.setSummary(pkgLabel);
+            preference.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(getActivity(), IconPackSettingsActivity.class));
+                return true;
+            });
         }
     }
 
