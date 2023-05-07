@@ -130,6 +130,8 @@ public class SettingsHomescreen extends CollapsingToolbarBaseActivity
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) { 
         switch (key) {
             case Utilities.KEY_DOCK_SEARCH:
+            case Utilities.KEY_SHORT_PARALLAX:
+            case Utilities.KEY_SINGLE_PAGE_CENTER:
                 LauncherAppState.getInstance(this).setNeedsRestart();
                 break;
             default:
