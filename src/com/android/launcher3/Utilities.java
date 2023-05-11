@@ -175,6 +175,7 @@ public final class Utilities {
 
     public static final String KEY_DOCK_SEARCH = "pref_dock_search";
     public static final String KEY_ALLOW_WALLPAPER_ZOOMING = "pref_allow_wallpaper_zooming";
+    public static final String KEY_FORCE_MONOCHROME_ICONS = "pref_forced_monochrome_icons";
 
     /**
      * Returns true if theme is dark.
@@ -918,5 +919,10 @@ public final class Utilities {
     public static boolean canZoomWallpaper(Context context) {
         SharedPreferences prefs = LauncherPrefs.getPrefs(context.getApplicationContext());
         return prefs.getBoolean(KEY_ALLOW_WALLPAPER_ZOOMING, true);
+    }
+
+    public static boolean enableMonoChromeThemedIcons(Context context) {
+        SharedPreferences prefs = LauncherPrefs.getPrefs(context.getApplicationContext());
+        return prefs.getBoolean(KEY_FORCE_MONOCHROME_ICONS, false);
     }
 }
