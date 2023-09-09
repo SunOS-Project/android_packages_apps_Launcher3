@@ -17,6 +17,7 @@
 package com.android.quickstep;
 
 import static android.app.WindowConfiguration.WINDOWING_MODE_FREEFORM;
+import static android.app.WindowConfiguration.WINDOWING_MODE_PINNED_WINDOW_EXT;
 import static android.content.Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
 import static android.view.Surface.ROTATION_0;
 
@@ -76,6 +77,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import org.sun.view.PopUpViewManager;
 
 /**
  * Represents a system shortcut that can be shown for a recent task. Appears as a single entry in
@@ -415,12 +418,72 @@ public interface TaskShortcutFactory {
         }
 
         private boolean isAvailable(RecentsViewContainer container) {
+            if (PopUpViewManager.FEATURE_SUPPORTED) {
+                return false;
+            }
             return Settings.Global.getInt(
                     container.asContext().getContentResolver(),
                     Settings.Global.DEVELOPMENT_ENABLE_FREEFORM_WINDOWS_SUPPORT, 0) != 0
                     && !enableDesktopWindowingMode();
         }
     };
+
+    TaskShortcutFactory POP_UP = new TaskShortcutFactory() {
+        @Override
+        public List<SystemShortcut> getShortcuts(RecentsViewContainer container,
+                TaskContainer taskContainer) {
+            final Task task  = taskContainer.getTask();
+            if (!task.isDockable) {
+                return null;
+            }
+            if (!isAvailable(container)) {
+                return null;
+            }
+
+            return Collections.singletonList(new PopUpViewSystemShortcut(
+                    com.android.internal.R.drawable.ic_pop_up_view,
+                    com.android.internal.R.string.recent_task_option_pop_up,
+                    container, taskContainer));
+        }
+
+        private boolean isAvailable(RecentsViewContainer container) {
+            return PopUpViewManager.FEATURE_SUPPORTED;
+        }
+    };
+
+    class PopUpViewSystemShortcut extends SystemShortcut<RecentsViewContainer> {
+
+        private static final String TAG = "PopUpViewSystemShortcut";
+
+        private final RecentsView mRecentsView;
+        private final TaskThumbnailViewDeprecated mThumbnailView;
+        private final TaskView mTaskView;
+
+        public PopUpViewSystemShortcut(int iconRes, int textRes,
+                RecentsViewContainer container, TaskContainer taskContainer) {
+            super(iconRes, textRes, container,
+                    taskContainer.getItemInfo(), taskContainer.getTaskView());
+            mTaskView = taskContainer.getTaskView();
+            mRecentsView = container.getOverviewPanel();
+            mThumbnailView = taskContainer.getThumbnailViewDeprecated();
+        }
+
+        @Override
+        public void onClick(View view) {
+            dismissTaskMenuView();
+            final RecentsView rv = mTarget.getOverviewPanel();
+            rv.switchToScreenshot(() -> {
+                rv.finishRecentsAnimation(true /* toRecents */, false /* shouldPip */, () -> {
+                    mTarget.returnToHomescreen();
+                    rv.getHandler().post(() -> {
+                        final ActivityOptions option = ActivityOptions.makeBasic();
+                        option.setLaunchWindowingMode(WINDOWING_MODE_PINNED_WINDOW_EXT);
+                        ActivityManagerWrapper.getInstance().startActivityFromRecents(mTaskView.getFirstTask().key.id, option);
+                    });
+                });
+            });
+        }
+    }
 
     TaskShortcutFactory PIN = new TaskShortcutFactory() {
         @Override
