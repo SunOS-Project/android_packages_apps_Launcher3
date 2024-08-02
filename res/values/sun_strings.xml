@@ -161,4 +161,8 @@
     <!-- Auto keyboard -->
     <string name="pref_auto_keyboard_title">Auto keyboard</string>
     <string name="pref_auto_keyboard_summary">Start searching when the drawer is expanded</string>
+
+    <!-- Circle to Search -->
+    <string name="pref_allow_cts_title">Circle to Search</string>
+    <string name="pref_allow_cts_summary">Touch and hold the Home button or the navigation handle to search using the content on your screen.</string>
 </resources>

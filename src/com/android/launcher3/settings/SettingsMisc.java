@@ -62,6 +62,8 @@ import com.android.launcher3.states.RotationHelper;
 import com.android.launcher3.util.DisplayController;
 import com.android.launcher3.util.Executors;
 import com.android.launcher3.util.SettingsCache;
+import com.android.quickstep.SystemUiProxy;
+import com.android.quickstep.util.AssistUtils;
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 
@@ -89,6 +91,12 @@ public class SettingsMisc extends CollapsingToolbarBaseActivity
 
     private static final int DELAY_HIGHLIGHT_DURATION_MILLIS = 600;
     public static final String SAVE_HIGHLIGHTED_KEY = "android:preference_highlighted";
+
+    private static final String CTS_KEY = "pref_allow_cts";
+    private static boolean mContextualSearchDefValue;
+    private static boolean mCtsEnabled;
+
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +135,9 @@ public class SettingsMisc extends CollapsingToolbarBaseActivity
             fm.beginTransaction().replace(
                     com.android.settingslib.collapsingtoolbar.R.id.content_frame, f).commit();
         }
+        mContext = getApplicationContext();
+        mContextualSearchDefValue = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_searchAllEntrypointsEnabledDefault);
         LauncherPrefs.getPrefs(getApplicationContext()).registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -151,10 +162,15 @@ public class SettingsMisc extends CollapsingToolbarBaseActivity
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) { 
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
             case DeviceProfile.KEY_PHONE_TASKBAR:
                 LauncherAppState.getInstance(this).setNeedsRestart();
+                break;
+            case CTS_KEY:
+                mCtsEnabled = LauncherPrefs.getPrefs(mContext).getBoolean(CTS_KEY, mContextualSearchDefValue);
+                Settings.Secure.putInt(mContext.getContentResolver(),
+                        Settings.Secure.SEARCH_ALL_ENTRYPOINTS_ENABLED, mCtsEnabled ? 1 : 0);
                 break;
             default:
                 break;
@@ -297,6 +313,12 @@ public class SettingsMisc extends CollapsingToolbarBaseActivity
                         preference.setOrder(0);
                     }
                     return mDeveloperOptionsEnabled;
+
+                case CTS_KEY:
+                    if (!AssistUtils.newInstance(getContext()).isContextualSearchIntentAvailable()) {
+                        return false;
+                    }
+                    return true;
             }
 
             return true;
