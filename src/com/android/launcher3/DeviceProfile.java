@@ -825,7 +825,7 @@ public class DeviceProfile {
                     - hotseatBorderSpace * numShownHotseatIcons
                     - iconExtraSpacePx;
         } else {
-            return getIconToIconWidthForColumns(mHotseatColumnSpan) - iconExtraSpacePx;
+            return getIconToIconWidthForColumns(mHotseatColumnSpan);
         }
     }
 
