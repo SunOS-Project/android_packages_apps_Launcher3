@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_overview_clear_all_button"
             android:text="@string/action_screenshot"
+            android:textSize="12.75sp"
             android:theme="@style/ThemeControlHighlightWorkspaceColor" />
 
         <Button
@@ -43,6 +44,7 @@
             android:layout_marginStart="@dimen/overview_actions_button_spacing"
             android:background="@drawable/bg_overview_clear_all_button"
             android:text="@string/action_split"
+            android:textSize="12.75sp"
             android:theme="@style/ThemeControlHighlightWorkspaceColor"
             android:visibility="gone" />
 
@@ -54,6 +56,7 @@
             android:layout_marginStart="@dimen/overview_actions_button_spacing"
             android:background="@drawable/bg_overview_clear_all_button"
             android:text="@string/recents_clear_all"
+            android:textSize="12.75sp"
             android:theme="@style/ThemeControlHighlightWorkspaceColor" />
 
     </LinearLayout>
@@ -67,6 +70,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_overview_clear_all_button"
         android:text="@string/action_save_app_pair"
+        android:textSize="12.75sp"
         android:theme="@style/ThemeControlHighlightWorkspaceColor"
         android:layout_gravity="bottom|center_horizontal"
         android:visibility="gone" />
