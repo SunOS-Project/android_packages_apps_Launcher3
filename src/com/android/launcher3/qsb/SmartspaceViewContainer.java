@@ -44,7 +44,7 @@ public class SmartspaceViewContainer extends FrameLayout implements PluginListen
         mView = (BcSmartspaceView) inflate(context, R.layout.smartspace_enhanced, null);
         mView.setPrimaryTextColor(GraphicsUtils.getAttrColor(context, R.attr.workspaceTextColor));
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity = Gravity.CENTER_VERTICAL;
+        layoutParams.gravity = Gravity.TOP;
         layoutParams.setMarginStart(getResources().getDimensionPixelSize(R.dimen.enhanced_smartspace_margin_start_launcher));
         addView(mView, layoutParams);
 
