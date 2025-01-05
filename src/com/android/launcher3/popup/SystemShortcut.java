@@ -47,6 +47,7 @@ import androidx.annotation.Nullable;
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.AbstractFloatingViewHelper;
 import com.android.launcher3.Flags;
+import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
 import com.android.launcher3.SecondaryDropTarget;
 import com.android.launcher3.Utilities;
@@ -209,16 +210,21 @@ public abstract class SystemShortcut<T extends ActivityContext> extends ItemInfo
             InfoBottomSheet cbs;
             dismissTaskMenuView();
             Rect sourceBounds = Utilities.getViewBounds(view);
-            try {
-                cbs = (InfoBottomSheet) mTarget.getLayoutInflater().inflate(
-                        R.layout.app_info_bottom_sheet,
-                        mTarget.getDragLayer(),
-                        false);
-                cbs.configureBottomSheet(sourceBounds, view.getContext());
-                cbs.populateAndShow(mItemInfo);
-            } catch (InflateException e) {
+            if (Launcher.getLauncher(view.getContext()).getStateManager().getState().isRecentsViewVisible) {
                 PackageManagerHelper.startDetailsActivityForInfo(view.getContext(), mItemInfo,
                         sourceBounds, ActivityOptions.makeBasic().toBundle());
+            } else {
+                try {
+                    cbs = (InfoBottomSheet) mTarget.getLayoutInflater().inflate(
+                            R.layout.app_info_bottom_sheet,
+                            mTarget.getDragLayer(),
+                            false);
+                    cbs.configureBottomSheet(sourceBounds, view.getContext());
+                    cbs.populateAndShow(mItemInfo);
+                } catch (InflateException e) {
+                    PackageManagerHelper.startDetailsActivityForInfo(view.getContext(), mItemInfo,
+                            sourceBounds, ActivityOptions.makeBasic().toBundle());
+                }
             }
             mTarget.getStatsLogManager().logger().withItemInfo(mItemInfo)
                     .log(LAUNCHER_SYSTEM_SHORTCUT_APP_INFO_TAP);
