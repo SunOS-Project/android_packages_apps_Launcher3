@@ -156,6 +156,7 @@ public class AllAppsSearchBarController
         mCallback.clearSearchResult();
         mInput.reset();
         mInput.clearFocus();
+        mInput.hideKeyboard();
         mQuery = null;
         mInput.removeOnFocusChangeListener(this);
     }
