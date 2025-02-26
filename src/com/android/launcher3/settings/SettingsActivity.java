@@ -54,6 +54,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceFragmentCompat.OnPreferenceStartFragmentCallback;
 import androidx.preference.PreferenceFragmentCompat.OnPreferenceStartScreenCallback;
@@ -210,7 +211,18 @@ public class SettingsActivity extends CollapsingToolbarBaseActivity
             PreferenceScreen screen = getPreferenceScreen();
             for (int i = screen.getPreferenceCount() - 1; i >= 0; i--) {
                 Preference preference = screen.getPreference(i);
-                if (!initPreference(preference)) {
+                if (preference instanceof PreferenceCategory) {
+                    PreferenceCategory category = (PreferenceCategory) preference;
+                    for (int j = category.getPreferenceCount() - 1; j >= 0; j--) {
+                        Preference pref = category.getPreference(j);
+                        if (!initPreference(pref)) {
+                            category.removePreference(pref);
+                        }
+                    }
+                    if (category.getPreferenceCount() == 0) {
+                        screen.removePreference(category);
+                    }
+                } else if (!initPreference(preference)) {
                     screen.removePreference(preference);
                 }
             }
