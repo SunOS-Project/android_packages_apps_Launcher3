@@ -26,51 +26,45 @@
         android:layout_gravity="bottom|center_horizontal"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/action_screenshot"
             style="@style/OverviewActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_screenshot"
             android:background="@drawable/bg_overview_clear_all_button"
-            android:text="@string/action_screenshot"
-            android:textSize="12.75sp"
             android:theme="@style/ThemeControlHighlightWorkspaceColor" />
 
-        <Button
+        <ImageButton
             android:id="@+id/action_split"
             style="@style/OverviewActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/overview_actions_button_spacing"
             android:background="@drawable/bg_overview_clear_all_button"
-            android:text="@string/action_split"
-            android:textSize="12.75sp"
             android:theme="@style/ThemeControlHighlightWorkspaceColor"
             android:visibility="gone" />
 
-        <Button
+        <ImageButton
             android:id="@+id/action_clear_all"
             style="@style/OverviewActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/overview_actions_button_spacing"
+            android:src="@drawable/ic_clear_all"
             android:background="@drawable/bg_overview_clear_all_button"
-            android:text="@string/recents_clear_all"
-            android:textSize="12.75sp"
             android:theme="@style/ThemeControlHighlightWorkspaceColor" />
 
     </LinearLayout>
 
     <!-- Currently, the only "group action button" is this save app pair button. If more are added,
     a new LinearLayout may be needed to contain them, but beware of increased memory usage. -->
-    <Button
+    <ImageButton
         android:id="@+id/action_save_app_pair"
         style="@style/OverviewActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_overview_clear_all_button"
-        android:text="@string/action_save_app_pair"
-        android:textSize="12.75sp"
         android:theme="@style/ThemeControlHighlightWorkspaceColor"
         android:layout_gravity="bottom|center_horizontal"
         android:visibility="gone" />
