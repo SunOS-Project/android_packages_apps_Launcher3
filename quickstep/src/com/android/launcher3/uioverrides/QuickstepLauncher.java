@@ -87,6 +87,7 @@ import android.os.IBinder;
 import android.os.IRemoteCallback;
 import android.os.SystemProperties;
 import android.os.Trace;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.HapticFeedbackConstants;
@@ -457,7 +458,11 @@ public class QuickstepLauncher extends Launcher implements RecentsViewContainer 
                 APP_INFO, WellbeingModel.SHORTCUT_FACTORY, mHotseatPredictionController));
         shortcuts.addAll(getSplitShortcuts());
         shortcuts.add(UNINSTALL);
-        shortcuts.add(FREE_FORM);
+        if (Settings.Global.getInt(asContext().getContentResolver(),
+                Settings.Global.DEVELOPMENT_ENABLE_FREEFORM_WINDOWS_SUPPORT, 0) != 0
+                && !enableDesktopWindowingMode()) {
+            shortcuts.add(FREE_FORM);
+        }
         shortcuts.add(PAUSE_APPS);
         shortcuts.add(WIDGETS);
         shortcuts.add(INSTALL);
