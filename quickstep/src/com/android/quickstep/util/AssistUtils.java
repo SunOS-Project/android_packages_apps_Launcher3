@@ -45,6 +45,7 @@ import static com.android.systemui.shared.system.QuickStepContract.SYSUI_STATE_Q
 public class AssistUtils implements SettingsCache.OnChangeListener, SafeCloseable {
 
     private final String TAG = "AssistUtils";
+    private final String GOOGLE_PKG = "com.google.android.googlequicksearchbox";
     private final boolean DEBUG = false;
 
     private final Context mContext;
@@ -93,7 +94,8 @@ public class AssistUtils implements SettingsCache.OnChangeListener, SafeCloseabl
 
     /** @return Array of AssistUtils.INVOCATION_TYPE_* that we want to handle instead of SysUI. */
     public int[] getSysUiAssistOverrideInvocationTypes() {
-        if (mContextualSearchManager == null || !isContextualSearchIntentAvailable() ||
+        if (!checkCtsSystemFeature() || mContextualSearchManager == null ||
+                !isContextualSearchIntentAvailable() ||
                 Settings.Secure.getInt(mContext.getContentResolver(),
                 Settings.Secure.SEARCH_ALL_ENTRYPOINTS_ENABLED, mContextualSearchDefValue) == 0) {
             return new int[0];
@@ -122,6 +124,11 @@ public class AssistUtils implements SettingsCache.OnChangeListener, SafeCloseabl
     }
 
     public boolean canDoContextualSearch() {
+        if (!checkCtsSystemFeature()) {
+            if (DEBUG) Log.d(TAG, "Contextual Search invocation failed: Contextual Search feature not supported by your OS");
+            return false;
+        }
+
         if (Settings.Secure.getInt(mContext.getContentResolver(),
                 Settings.Secure.SEARCH_ALL_ENTRYPOINTS_ENABLED, mContextualSearchDefValue) == 0) {
             if (DEBUG) Log.d(TAG, "Contextual Search invocation failed: CTS setting disabled");
@@ -153,6 +160,14 @@ public class AssistUtils implements SettingsCache.OnChangeListener, SafeCloseabl
         }
 
         return true;
+    }
+
+    public boolean checkCtsSystemFeature() {
+        if (mContextualSearchPkg.equals(GOOGLE_PKG)) {
+            return mContext.getPackageManager().hasSystemFeature("com.google.android.feature.CONTEXTUAL_SEARCH") ||
+                    mContext.getPackageManager().hasSystemFeature("android.software.contextualsearch");
+        }
+        return mContext.getPackageManager().hasSystemFeature("android.software.contextualsearch");
     }
 
     public boolean isContextualSearchIntentAvailable() {
