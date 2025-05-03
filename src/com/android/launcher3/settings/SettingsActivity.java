@@ -30,7 +30,7 @@ import static co.aospa.launcher.OverlayCallbackImpl.KEY_DESKTOP_LABELS;
 import static co.aospa.launcher.OverlayCallbackImpl.KEY_DOCK_SEARCH;
 import static co.aospa.launcher.OverlayCallbackImpl.KEY_DRAWER_LABELS;
 import static co.aospa.launcher.OverlayCallbackImpl.KEY_DRAWER_OPEN_KEYBOARD;
-import static co.aospa.launcher.OverlayCallbackImpl.KEY_DT_GESTURE;
+//import static co.aospa.launcher.OverlayCallbackImpl.KEY_DT_GESTURE;
 import static co.aospa.launcher.OverlayCallbackImpl.KEY_FONT_SIZE;
 import static co.aospa.launcher.OverlayCallbackImpl.KEY_ICON_SIZE;
 import static co.aospa.launcher.OverlayCallbackImpl.KEY_MINUS_ONE;
@@ -273,12 +273,6 @@ public class SettingsActivity extends CollapsingToolbarBaseActivity
             switch (key) {
                 case KEY_DOCK_SEARCH:
                     LauncherAppState.getInstance(getContext()).setNeedsRestart();
-                    break;
-                case KEY_DT_GESTURE:
-                    Settings.System.putIntForUser(getContext().getContentResolver(),
-                            Settings.System.GESTURE_DOUBLE_TAP_SLEEP,
-                            sharedPreferences.getBoolean(key, true) ? 1 : 0,
-                            UserHandle.USER_CURRENT);
                     break;
                 case KEY_DESKTOP_LABELS:
                 case KEY_DRAWER_LABELS:
