@@ -27,6 +27,7 @@ import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.os.VibrationEffect;
+import android.os.VibrationExtInfo;
 import android.os.Vibrator;
 import android.provider.Settings;
 
@@ -201,6 +202,12 @@ public class VibratorWrapper implements SafeCloseable {
                     mVibrator.vibrate(fallbackEffect, VIBRATION_ATTRS);
                 }
             });
+        }
+    }
+
+    public void vibrateExt(VibrationExtInfo info) {
+        if (mHasVibrator) {
+            UI_HELPER_EXECUTOR.execute(() -> mVibrator.vibrateExt(info));
         }
     }
 

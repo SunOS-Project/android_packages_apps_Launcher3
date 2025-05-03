@@ -177,7 +177,7 @@ android_library {
         "com.android.window.flags.window-aconfig-java",
         "SettingsLib",
         "libGoogleFeed",
-        "co.aospa.framework",
+        "custom-preference",
     ],
     manifest: "AndroidManifest-common.xml",
     sdk_version: "current",

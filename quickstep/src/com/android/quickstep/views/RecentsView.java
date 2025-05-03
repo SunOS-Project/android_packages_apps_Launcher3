@@ -75,6 +75,10 @@ import static com.android.quickstep.views.OverviewActionsView.HIDDEN_NO_TASKS;
 import static com.android.quickstep.views.OverviewActionsView.HIDDEN_SPLIT_SCREEN;
 import static com.android.quickstep.views.OverviewActionsView.HIDDEN_SPLIT_SELECT_ACTIVE;
 
+import static org.sun.os.CustomVibrationAttributes.VIBRATION_ATTRIBUTES_MISC_SCENES;
+
+import static vendor.sun.hardware.vibratorExt.Effect.CLEAR_ALL_RECENT;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -103,6 +107,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.UserHandle;
 import android.os.VibrationEffect;
+import android.os.VibrationExtInfo;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -4306,9 +4311,10 @@ public abstract class RecentsView<CONTAINER_TYPE extends Context & RecentsViewCo
 
     @SuppressWarnings("unused")
     private void dismissAllTasks(View view) {
-        if (view != null) {
-            VibratorWrapper.INSTANCE.get(getContext()).vibrate(VibratorWrapper.EFFECT_CLICK);
-        }
+        VibratorWrapper.INSTANCE.get(mContext).vibrateExt(new VibrationExtInfo.Builder()
+                 .setEffectId(CLEAR_ALL_RECENT)
+                 .setVibrationAttributes(VIBRATION_ATTRIBUTES_MISC_SCENES)
+                 .build());
         runDismissAnimation(createAllTasksDismissAnimation(DISMISS_TASK_DURATION));
         mContainer.getStatsLogManager().logger().log(LAUNCHER_TASK_CLEAR_ALL);
     }
