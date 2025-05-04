@@ -117,7 +117,7 @@
             android:max="150"
             android:min="50"
             settings:units="%"
-            android:defaultValue="100" />
+            android:defaultValue="105" />
 
         <org.sun.custom.preference.CustomSeekBarPreference
             android:key="pref_font_size"
@@ -126,7 +126,7 @@
             android:max="150"
             android:min="50"
             settings:units="%"
-            android:defaultValue="100" />
+            android:defaultValue="115" />
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory
