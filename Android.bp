@@ -167,6 +167,7 @@ android_library {
         "com.android.window.flags.window-aconfig-java",
         "libGoogleFeed",
         "SettingsLib",
+        "custom-preference",
     ],
     manifest: "AndroidManifest-common.xml",
     sdk_version: "current",
