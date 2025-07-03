@@ -33,14 +33,13 @@
         android:fullBackupContent="@xml/backupscheme"
         android:hardwareAccelerated="true"
         android:debuggable="true"
-        android:icon="@mipmap/ic_launcher_home"
+        android:icon="@drawable/ic_launcher_home"
         android:label="@string/derived_app_name"
         android:theme="@style/AppTheme"
         android:largeHeap="@bool/config_largeHeap"
         android:restoreAnyVersion="true"
         android:supportsRtl="true"
-        tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:icon">
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!--
         Main launcher activity. When extending only change the name, and keep all the
